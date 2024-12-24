@@ -33,6 +33,7 @@ accountController.register = async (req, res) => {
     res.render("register", {
       error: "Error during registration. Please try again.",
       page: "register",
+      user: req.user || null,
     });
   }
 };
@@ -47,7 +48,12 @@ accountController.login = async (req, res) => {
 
   // Validation
   if (!username || !password || !recaptchaToken) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).render("login", {
+      error: "All fields are required.",
+      siteKey: process.env.RECAPTCHA_SITE_KEY,
+      user: req.user || null,
+      page: "login",
+    });
   }
 
   // Verify reCAPTCHA token
@@ -56,13 +62,17 @@ accountController.login = async (req, res) => {
       recaptchaToken
     );
     if (!isRecaptchaValid) {
-      return res
-        .status(400)
-        .json({ error: "Invalid reCAPTCHA. Please try again." });
+      return res.status(400).render("login", {
+        error: "Invalid reCAPTCHA. Please try again.",
+        siteKey: process.env.RECAPTCHA_SITE_KEY,
+        user: req.user || null,
+        page: "login",
+      });
     }
 
     // Authenticate the user
     const user = await accountService.authenticateUser(username, password);
+    const expiresIn = 15 * 60 * 1000; // Token expiry in milliseconds
 
     // Create JWT token
     const token = jwt.sign(
@@ -73,20 +83,38 @@ accountController.login = async (req, res) => {
 
     // Set the token in cookies
     res.cookie("token", token, { httpOnly: true, secure: false });
-    console.log("token in cookie", token);
 
     // Redirect to the profile page
-    res.status(200).redirect("/api/account/profile");
+    res.status(200).render("profile", {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      user: req.user || null,
+      page: "profile",
+      tokenExpiry: expiresIn, // Convert to milliseconds
+    });
   } catch (error) {
     console.error("Login error:", error);
+
+    // Check if the error is due to rate limit exceeding
+    if (error.code === "ERR_HTTP_INVALID_STATUS_CODE") {
+      return res.status(429).render("login", {
+        error: "Too many login attempts, please try again later.",
+        siteKey: process.env.RECAPTCHA_SITE_KEY,
+        user: req.user || null,
+        page: "login",
+      });
+    }
+
+    // Generic error handling
     res.render("login", {
       error: "Error during login. Please try again.",
       siteKey: process.env.RECAPTCHA_SITE_KEY,
+      user: req.user || null,
       page: "login",
     });
   }
 };
-
 // Profile Route (Protected)
 accountController.profile = async (req, res) => {
   try {
@@ -101,13 +129,19 @@ accountController.profile = async (req, res) => {
         return res.redirect("/api/account/login");
       }
 
-      const { id, username, email } = decoded;
+      const { id, username, email, exp } = decoded; // Get the expiry time from the token
+
+      // Calculate the token expiry time in milliseconds
+      const tokenExpiryTime = exp * 1000; // JWT 'exp' is in seconds, so multiply by 1000 to convert to milliseconds
+
+      // Send the token expiry time to the view
       res.render("profile", {
         id,
         username,
         email,
         user: req.user || null,
         page: "profile",
+        tokenExpiry: tokenExpiryTime, // Pass the expiry time to the view
       });
     });
   } catch (error) {
@@ -115,7 +149,6 @@ accountController.profile = async (req, res) => {
     res.redirect("/api/account/login");
   }
 };
-
 // Logout Route
 accountController.logout = (req, res) => {
   // Clear the cookie on logout

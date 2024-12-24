@@ -4,25 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <!-- Link to external CSS for styling -->
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <!-- Include header partial that contains navigation links -->
-    <%-include ('partials/header.ejs') %>
+    <%- include('partials/header.ejs') %>
 
     <div class="container">
       <div class="profile">
         <h2>Profile</h2>
-        <!-- Display the username and email from the server -->
         <p>Username: <%= username %></p>
         <p>Email: <%= email %></p>
-        <!-- Logout link to log the user out -->
         <a href="/api/account/logout">Logout</a>
       </div>
     </div>
 
-    <!-- Include footer partial -->
     <%- include('partials/footer.ejs') %>
+
+    <!-- Token Expiry Warning Script -->
+    <script>
+      // Assuming the expiry time is passed as a variable in the response
+      const tokenExpiryTime = <%= tokenExpiry %>; // Token expiry time passed from the server
+      const warningThreshold = 5 * 60 * 1000; // 5 minutes before expiry
+
+      // Function to show expiry warning
+      function showExpiryWarning() {
+        const currentTime = Date.now();
+        const timeRemaining = tokenExpiryTime - currentTime;
+
+        if (timeRemaining <= warningThreshold) {
+          alert("Your session is about to expire in 5 minutes. Please save your work.");
+        }
+      }
+
+      // Check every minute
+      setInterval(showExpiryWarning, 60000); // Checks every minute
+    </script>
   </body>
 </html>

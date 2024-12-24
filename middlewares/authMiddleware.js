@@ -4,7 +4,6 @@ const utils = require("../utils/utils");
 // Middleware for token verification
 function tokenVerification(req, res, next) {
   let token = req.cookies.token || req.header("Authorization");
-  console.log(token);
 
   if (!token) {
     return res
