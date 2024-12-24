@@ -1,19 +1,19 @@
-const { Client } = require("pg"); // Correct import for Client
+const { Client } = require("pg"); // PostgreSQL client import
 const dotenv = require("dotenv"); // Load environment variables from .env file
 
 dotenv.config();
 
 const db = new Client({
-  user: process.env.DB_USER, // Your PostgreSQL username
+  user: process.env.DB_USER, // PostgreSQL username
   host: process.env.DB_HOST, // Host (localhost or remote)
   database: process.env.DB_NAME, // Database name
   password: process.env.DB_PASSWORD, // PostgreSQL password
-  port: process.env.DB_PORT || 5432, // Default is 5432 if not provided
+  port: process.env.DB_PORT || 5432, // Port (default 5432)
 });
 
 const connectDB = async () => {
   try {
-    await db.connect();
+    await db.connect(); // Establish connection to the database
     console.log("DB Connected");
 
     // Create users table if it doesn't exist
@@ -27,15 +27,15 @@ const connectDB = async () => {
       );
     `;
 
-    await db.query(createTableQuery);
+    await db.query(createTableQuery); // Execute query to create table
     console.log("Users table created successfully.");
   } catch (error) {
     console.error("DB Connection Error: ", error);
-    process.exit(1);
+    process.exit(1); // Exit on failure
   }
 };
 
 module.exports = {
   connectDB,
-  db, // Export db client for use elsewhere
+  db, // Export the db client for use elsewhere
 };

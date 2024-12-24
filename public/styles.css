@@ -1,0 +1,216 @@
+/* Reset and General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  background-color: #f7f8fa;
+  color: #333;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Roboto", sans-serif;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Center all content in the page */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+header {
+  background-color: #34495e;
+  padding: 10px 0;
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+header nav {
+  display: flex;
+  justify-content: center;
+}
+
+header ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+}
+
+header li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+header a:hover {
+  color: #ffcc00; /* Change color on hover */
+}
+/* header a:hover {
+  background-color: #2980b9;
+} */
+
+/* Highlight the active link */
+header .active {
+  color: #ffcc00; /* Active page link color */
+}
+
+/* Main content area */
+.main-content {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.success-message {
+  background-color: #27ae60;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 20px 0 20px 0;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  border-color: #2980b9;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3498db;
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Login and Registration Page */
+.login-form,
+.register-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+/* Profile Page */
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.profile p {
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.profile a {
+  color: #2980b9;
+  text-decoration: none;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+.profile a:hover {
+  text-decoration: underline;
+}
+
+/* Google reCAPTCHA */
+.g-recaptcha {
+  margin-top: 20px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 30px;
+  color: #7f8c8d;
+}
+
+footer a {
+  color: #2980b9;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}

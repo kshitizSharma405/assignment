@@ -11,10 +11,21 @@ router.post("/login", accountController.login);
 
 // GET Register Page
 router.get("/register", (req, res) => {
-  res.render("register", { error: null, message: null });
+  res.render("register", {
+    error: null,
+    message: null,
+    user: req.user || null,
+    page: "register",
+  });
 });
 
 // GET Login Page
 router.get("/login", accountController.loginPage);
+
+// Profile Route (Protected)
+router.get("/profile", tokenVerification, accountController.profile);
+
+// Logout Route
+router.get("/logout", accountController.logout);
 
 module.exports = router;

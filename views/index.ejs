@@ -4,12 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <!-- Link to external CSS for styling -->
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Welcome to the Full-Stack Authentication System!</h1>
-    <p>
-      <a href="/api/account/register">Register</a> |
-      <a href="/api/account/login">Login</a>
-    </p>
+    <!-- Include header partial that contains navigation links -->
+    <%-include ('partials/header.ejs') %>
+
+    <div class="container">
+      <div class="main-content">
+        <h1>Welcome to Our App</h1>
+        <p>Your one-stop solution for secure login and registration.</p>
+        <!-- Link to login page -->
+        <p><a href="/api/account/login">Login</a> to access your profile.</p>
+      </div>
+    </div>
+
+    <!-- Include footer partial -->
+    <%-include('partials/footer.ejs') %>
   </body>
 </html>

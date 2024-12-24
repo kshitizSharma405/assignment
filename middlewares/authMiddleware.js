@@ -1,8 +1,11 @@
 const jwt = require("jsonwebtoken");
 const utils = require("../utils/utils");
 
+// Middleware for token verification
 function tokenVerification(req, res, next) {
-  let token = req.header("Authorization");
+  let token = req.cookies.token || req.header("Authorization");
+  console.log(token);
+
   if (!token) {
     return res
       .status(401)
@@ -12,15 +15,15 @@ function tokenVerification(req, res, next) {
   }
 
   token = token.replace("Bearer ", "");
+
   try {
     jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
       if (err) {
-        return res
-          .status(401)
-          .send(utils.createResult("Invalid token", null, err.message));
+        console.log(err.message);
+        return res.redirect("/api/account/login");
       }
-      req.user = decoded;
-      next();
+      req.user = decoded; // Attach decoded user data to the request
+      next(); // Continue to the next middleware/route
     });
   } catch (err) {
     return res

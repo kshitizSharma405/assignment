@@ -4,13 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
+    <!-- Link to external CSS for styling -->
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Profile</h1>
-    <p>Username: <%= username %></p>
-    <p>Email: <%= email %></p>
-    <p>Account Created At: <%= created_at %></p>
+    <!-- Include header partial that contains navigation links -->
+    <%-include ('partials/header.ejs') %>
 
-    <a href="/api/account/logout">Logout</a>
+    <div class="container">
+      <div class="profile">
+        <h2>Profile</h2>
+        <!-- Display the username and email from the server -->
+        <p>Username: <%= username %></p>
+        <p>Email: <%= email %></p>
+        <!-- Logout link to log the user out -->
+        <a href="/api/account/logout">Logout</a>
+      </div>
+    </div>
+
+    <!-- Include footer partial -->
+    <%- include('partials/footer.ejs') %>
   </body>
 </html>

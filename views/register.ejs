@@ -4,26 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
+    <!-- Link to external CSS for styling -->
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Register</h1>
-    <form action="/api/account/register" method="POST">
-      <label for="username">Username:</label><br />
-      <input type="text" id="username" name="username" required /><br /><br />
+    <!-- Include header partial that contains navigation links -->
+    <%-include ('partials/header.ejs') %>
 
-      <label for="email">Email:</label><br />
-      <input type="email" id="email" name="email" required /><br /><br />
+    <div class="container">
+      <div class="register-form">
+        <h2>Register</h2>
 
-      <label for="password">Password:</label><br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        required
-      /><br /><br />
+        <!-- Display success or error messages if available -->
+        <% if (message) { %>
+        <div class="success-message"><%= message %></div>
+        <% } %> <% if (error) { %>
+        <div class="error-message"><%= error %></div>
+        <% } %>
 
-      <button type="submit">Register</button>
-    </form>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!-- Registration form -->
+        <form action="/api/account/register" method="POST">
+          <!-- Input fields for username, email, and password -->
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" required />
+
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" required />
+
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" required />
+
+          <!-- Submit button to register -->
+          <button type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Include footer partial -->
+    <%- include('partials/footer.ejs') %>
   </body>
 </html>

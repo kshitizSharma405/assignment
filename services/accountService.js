@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const { db } = require("../config/db");
-
 let accountService = {};
 
 // User Registration Service
@@ -18,7 +17,6 @@ accountService.registerUser = async (username, email, password) => {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
     // Insert new user into the database
     await db.query(
       "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
@@ -37,7 +35,6 @@ accountService.authenticateUser = async (username, password) => {
       "SELECT * FROM users WHERE email = $1 OR username = $2",
       [username, username]
     );
-
     if (userQuery.rows.length === 0) {
       throw new Error("Invalid credentials");
     }
@@ -49,7 +46,6 @@ accountService.authenticateUser = async (username, password) => {
     if (!isMatch) {
       throw new Error("Invalid credentials");
     }
-
     return user; // Return user if password matches
   } catch (error) {
     throw new Error(`Error authenticating user: ${error.message}`);

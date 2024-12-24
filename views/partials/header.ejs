@@ -1,0 +1,44 @@
+<header>
+  <nav>
+    <ul>
+      <li>
+        <!-- Highlight Home link when on the home page -->
+        <a href="/" class="<%= page === 'home' ? 'active' : '' %>">Home</a>
+      </li>
+
+      <!-- Show Login and Register links only if the user is not logged in -->
+      <% if (!user) { %>
+      <li>
+        <a
+          href="/api/account/login"
+          class="<%= page === 'login' ? 'active' : '' %>"
+          >Login</a
+        >
+      </li>
+      <li>
+        <a
+          href="/api/account/register"
+          class="<%= page === 'register' ? 'active' : '' %>"
+          >Register</a
+        >
+      </li>
+      <% } else { %>
+      <!-- Show Profile and Logout links only if the user is logged in -->
+      <li>
+        <a
+          href="/api/account/profile"
+          class="<%= page === 'profile' ? 'active' : '' %>"
+          >Profile</a
+        >
+      </li>
+      <li>
+        <a
+          href="/api/account/logout"
+          class="<%= page === 'logout' ? 'active' : '' %>"
+          >Logout</a
+        >
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+</header>
